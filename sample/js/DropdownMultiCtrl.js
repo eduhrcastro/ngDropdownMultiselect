@@ -8,8 +8,31 @@ sampleAppControllers.controller('DropdownMultiCtrl', ['$scope',
 
     var vm = this
 
-    vm.title = "Sample Test"
+    vm.options = ['Eduardo Castro','Henrique Rocha','Amanayara Sousa']
 
-    console.log('teste')
+    vm.model = []
+
+    vm.settings = {
+      enableSearch: true,
+      template: '{{option}}',
+      showCheckAll: false,
+      showUncheckAll: false,
+      styleActive: true,
+      checkBoxes: true,
+      buttonClasses: 'btn btn-primary'
+    }
+
+    vm.translates = {
+      checkAll: 'Marcar Todos',
+      uncheckAll: 'Desmarcar Todos',
+      enableSearch: 'Habilitar Pesquisa',
+      disableSearch: 'Desabilitar Pesquisa',
+      selectionCount: 'selecionado',
+      selectionOf: '/',
+      searchPlaceholder: 'Pesquisar',
+      buttonDefaultText: 'Selecionar',
+      dynamicButtonTextSuffix: 'selecionado',
+      selectGroup: 'Selecionar Tudo:'
+    }
 
   }]);
