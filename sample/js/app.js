@@ -3,7 +3,8 @@
 /* App Module */
 var sampleApp = angular.module('sampleApp', [
   'ngRoute',
-  'sampleAppControllers'
+  'sampleAppControllers',
+  'ngDropdownMulti'
 ]);
 
 sampleApp.config(['$routeProvider','$locationProvider',

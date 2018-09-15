@@ -6,6 +6,7 @@ import runSequence from 'gulp-run-sequence'
 import rename from 'gulp-rename'
 
 import yarn from 'gulp-yarn'
+import htmlToJs from 'gulp-angular-html2js'
 import minify from 'gulp-babel-minify'
 import clean from 'gulp-clean'
 import concat from 'gulp-concat'
@@ -18,6 +19,22 @@ const karmaServer = karma.Server
 gulp.task('yarn', () => {
   return gulp.src(['./package.json'])
     .pipe(yarn())
+})
+
+gulp.task('htmlToJs', () => {
+  gulp.src(['src/**/*.html'])
+      .pipe(htmlToJs({
+          moduleName:function(filename,subpath){
+              return 'ngDropdownMulti'
+          },
+          templateUrl: function (filename) {
+              return 'templates/'+filename
+          },
+          rename:function(fileName){
+              return fileName+'.js'
+          }
+      }))
+      .pipe(gulp.dest('src/tmp'))
 })
 
 gulp.task('concat', () => {
@@ -42,7 +59,7 @@ gulp.task('minify', () => {
 })
 
 gulp.task('clean', () => {
-  return gulp.src(['tmp'], {read: false})
+  return gulp.src(['tmp','src/tmp'], {read: false})
     .pipe(clean({force: true}))
 })
 
@@ -73,10 +90,10 @@ gulp.task('umd', function() {
 
 gulp.task('watch', () => {
   gulp.watch('gulpfile.babel.js', () => {
-    runSequence('yarn','concat','umd')
+    runSequence('yarn','htmlToJs','concat','umd')
   })
-  gulp.watch(['src/**/*.js'], () => {
-    runSequence('yarn','concat','umd')
+  gulp.watch(['src/**/*.js','src/**/.html'], () => {
+    runSequence('yarn','htmlToJs','concat','umd')
   })
 })
 
@@ -88,13 +105,13 @@ gulp.task('test', (done) => {
 })
 
 gulp.task('dev', () => {
-  runSequence('yarn','concat','umd','minify',['watch'])
+  runSequence('yarn','htmlToJs','concat','umd','minify',['watch'])
 })
 
 gulp.task('build', () => {
-  runSequence('yarn','concat','umd','minify','clean')
+  runSequence('yarn','htmlToJs','concat','umd','minify')
 })
 
 gulp.task('default', () => {
-  runSequence('yarn','concat','umd','minify','clean',['watch'])
+  runSequence('yarn','htmlToJs','concat','umd','minify',['watch'])
 })

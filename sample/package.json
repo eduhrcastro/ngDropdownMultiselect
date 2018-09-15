@@ -14,6 +14,7 @@
     "angular-resource": "^1.7.0",
     "angular-route": "^1.7.0",
     "bootstrap": "^4.1.3",
-    "jquery": "^3.3.1"
+    "jquery": "^3.3.1",
+    "ngdropdownmulti": "github:eduhrcastro/ngDropdownMultiselect#master"
   }
 }

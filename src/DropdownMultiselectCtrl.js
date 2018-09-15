@@ -1,4 +1,5 @@
-let dropdownMulti = angular.module('ngDropdownMultiselect', [])
+let NgDropdownMulti = 'ngDropdownMulti'
+let dropdownMulti = angular.module('ngDropdownMulti', [])
 
 dropdownMulti.controller('DropdownMultiselectCtrl', function () {
 

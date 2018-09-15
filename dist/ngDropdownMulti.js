@@ -9,7 +9,8 @@
 }(this, function (exports, angular) {
 'use strict';
 
-var dropdownMulti = angular.module('ngDropdownMultiselect', []);
+var NgDropdownMulti = 'ngDropdownMulti';
+var dropdownMulti = angular.module('ngDropdownMulti', []);
 
 dropdownMulti.controller('DropdownMultiselectCtrl', function () {
 
@@ -21,16 +22,21 @@ dropdownMulti.controller('DropdownMultiselectCtrl', function () {
 });
 'use strict';
 
-var dropdownMulti = angular.module('ngDropdownMultiselect', []);
+var dropdownMulti = angular.module('ngDropdownMulti');
 
 dropdownMulti.directive('dropdownMultiselect', function () {
 
   return {
     restrict: 'AE',
     controller: 'DropdownMultiselectCtrl as dropdownMultiselectCtrl',
-    templateUrl: 'src/dropdownMultiselect.html'
+    templateUrl: 'templates/dropdownMultiselect.html'
   };
 });
+"use strict";
+
+angular.module("ngDropdownMulti", []).run(["$templateCache", function ($templateCache) {
+  $templateCache.put("templates/dropdownMultiselect.html", "<h1>{{dropdownMultiselectCtrl.title}}</h1>" + "");
+}]);
 
 exports.ngDropdownMulti = NgDropdownMulti;
 }));

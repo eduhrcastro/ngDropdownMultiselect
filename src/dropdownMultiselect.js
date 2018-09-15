@@ -1,11 +1,11 @@
-let dropdownMulti = angular.module('ngDropdownMultiselect', [])
+let dropdownMulti = angular.module('ngDropdownMulti')
 
 dropdownMulti.directive('dropdownMultiselect', () => {
 
   	return {
   		restrict: 'AE',
   		controller: 'DropdownMultiselectCtrl as dropdownMultiselectCtrl',
-  		templateUrl: 'src/dropdownMultiselect.html',
+  		templateUrl: 'templates/dropdownMultiselect.html',
   	}
 
 })
