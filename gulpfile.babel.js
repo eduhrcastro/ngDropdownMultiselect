@@ -6,7 +6,7 @@ import runSequence from 'gulp-run-sequence'
 import rename from 'gulp-rename'
 
 import yarn from 'gulp-yarn'
-import htmlToJs from 'gulp-angular-html2js'
+import htmlToJs from 'gulp-ng-html2js'
 import minify from 'gulp-babel-minify'
 import clean from 'gulp-clean'
 import concat from 'gulp-concat'
@@ -24,15 +24,11 @@ gulp.task('yarn', () => {
 gulp.task('htmlToJs', () => {
   gulp.src(['src/**/*.html'])
       .pipe(htmlToJs({
-          moduleName:function(filename,subpath){
+          moduleName:function(file){
               return 'ngDropdownMulti'
           },
-          templateUrl: function (filename) {
-              return 'templates/'+filename
-          },
-          rename:function(fileName){
-              return fileName+'.js'
-          }
+          prefix: 'templates/',
+          declareModule: false
       }))
       .pipe(gulp.dest('src/tmp'))
 })

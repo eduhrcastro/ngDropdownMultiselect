@@ -32,10 +32,10 @@ dropdownMulti.directive('dropdownMultiselect', function () {
     templateUrl: 'templates/dropdownMultiselect.html'
   };
 });
-"use strict";
+'use strict';
 
-angular.module("ngDropdownMulti", []).run(["$templateCache", function ($templateCache) {
-  $templateCache.put("templates/dropdownMultiselect.html", "<h1>{{dropdownMultiselectCtrl.title}}</h1>" + "");
+angular.module('ngDropdownMulti').run(['$templateCache', function ($templateCache) {
+  $templateCache.put('templates/dropdownMultiselect.html', '<h1>{{dropdownMultiselectCtrl.title}}</h1>\n' + '');
 }]);
 
 exports.ngDropdownMulti = NgDropdownMulti;
