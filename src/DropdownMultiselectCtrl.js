@@ -1,31 +1,31 @@
 let NgDropdownMulti = 'ngDropdownMulti'
 let dropdownMulti = angular.module('ngDropdownMulti', [])
 
-function contains(collection, target) {
-  let containsTarget = false;
-  collection.some((object) => {
-    if (object === target) {
-      containsTarget = true;
-      return true;
-    }
-    return false;
-  });
-  return containsTarget;
-}
-
-function getIndexByProperty(collection, objectToFind, property) {
-  let index = -1;
-  collection.some((option, ind) => {
-    if (option[property] === objectToFind[property]) {
-      index = ind;
-      return true;
-    }
-    return false;
-  });
-  return index;
-}
-
 dropdownMulti.controller('DropdownMultiselectCtrl', function ($scope, $element, $filter, $document) {
+
+  function contains(collection, target) {
+    let containsTarget = false;
+    collection.some((object) => {
+      if (object === target) {
+        containsTarget = true;
+        return true;
+      }
+      return false;
+    });
+    return containsTarget;
+  }
+
+  function getIndexByProperty(collection, objectToFind, property) {
+    let index = -1;
+    collection.some((option, ind) => {
+      if (option[property] === objectToFind[property]) {
+        index = ind;
+        return true;
+      }
+      return false;
+    });
+    return index;
+  }
 
   const $dropdownTrigger = $element.children()[0];
 	const externalEvents = {

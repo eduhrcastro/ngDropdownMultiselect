@@ -18,7 +18,7 @@ sampleAppControllers.controller('DropdownMultiCtrl', ['$scope',
       showCheckAll: false,
       showUncheckAll: false,
       styleActive: true,
-      checkBoxes: true,
+      checkBoxes: false,
       buttonClasses: 'btn btn-primary'
     }
 

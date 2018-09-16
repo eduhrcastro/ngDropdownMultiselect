@@ -12,31 +12,31 @@
 var NgDropdownMulti = 'ngDropdownMulti';
 var dropdownMulti = angular.module('ngDropdownMulti', []);
 
-function contains(collection, target) {
-	var containsTarget = false;
-	collection.some(function (object) {
-		if (object === target) {
-			containsTarget = true;
-			return true;
-		}
-		return false;
-	});
-	return containsTarget;
-}
-
-function getIndexByProperty(collection, objectToFind, property) {
-	var index = -1;
-	collection.some(function (option, ind) {
-		if (option[property] === objectToFind[property]) {
-			index = ind;
-			return true;
-		}
-		return false;
-	});
-	return index;
-}
-
 dropdownMulti.controller('DropdownMultiselectCtrl', function ($scope, $element, $filter, $document) {
+
+	function contains(collection, target) {
+		var containsTarget = false;
+		collection.some(function (object) {
+			if (object === target) {
+				containsTarget = true;
+				return true;
+			}
+			return false;
+		});
+		return containsTarget;
+	}
+
+	function getIndexByProperty(collection, objectToFind, property) {
+		var index = -1;
+		collection.some(function (option, ind) {
+			if (option[property] === objectToFind[property]) {
+				index = ind;
+				return true;
+			}
+			return false;
+		});
+		return index;
+	}
 
 	var $dropdownTrigger = $element.children()[0];
 	var externalEvents = {
@@ -553,8 +553,8 @@ dropdownMulti.directive('dmDropdownStaticInclude', function ($compile) {
 
 	return {
 		link: function link(scope, iElement, iAttrs, ngModelCtrl) {
-			var template = attrs.dmDropdownStaticInclude;
-			var contents = element.html(template).contents();
+			var template = iAttrs.dmDropdownStaticInclude;
+			var contents = iElement.html(template).contents();
 			$compile(contents)(scope);
 		}
 	};
@@ -586,7 +586,7 @@ dropdownMulti.directive('dropdownMultiselect', function () {
 'use strict';
 
 angular.module('ngDropdownMulti').run(['$templateCache', function ($templateCache) {
-	$templateCache.put('templates/dropdownMultiselect.html', '<div class="multiselect-parent btn-group dropdown-multiselect" ng-class="{open: open}">\n' + '     <div ng-transclude="toggleDropdown" ng-click="toggleDropdown()">\n' + '      <button ng-disabled="disabled"\n' + '              type="button"\n' + '              class="dropdown-toggle"\n' + '              ng-class="settings.buttonClasses"\n' + '              >\n' + '        {{getButtonText()}}&nbsp;<span class="caret"></span>\n' + '      </button>\n' + '    </div>\n' + '  <ul class="dropdown-menu dropdown-menu-form"\n' + '      ng-if="open"\n' + '      ng-style="{display: open ? \'block\' : \'none\', height : settings.scrollable ? settings.scrollableHeight : \'auto\', overflow: \'auto\' }">\n' + '    <li ng-if="settings.showCheckAll && settings.selectionLimit === 0">\n' + '      <a ng-keydown="keyDownLink($event)"\n' + '         data-ng-click="selectAll()"\n' + '         tabindex="-1"\n' + '         id="selectAll">\n' + '        <span class="glyphicon glyphicon-ok"></span>\n' + '        {{texts.checkAll}}\n' + '      </a>\n' + '    <li ng-if="settings.showUncheckAll">\n' + '      <a ng-keydown="keyDownLink($event)"\n' + '         data-ng-click="deselectAll();"\n' + '         tabindex="-1"\n' + '         id="deselectAll">\n' + '        <span class="glyphicon glyphicon-remove"></span>\n' + '        {{texts.uncheckAll}}\n' + '      </a>\n' + '    </li>\n' + '    <li ng-if="settings.selectByGroups && ((settings.showCheckAll && settings.selectionLimit > 0) || settings.showUncheckAll)"\n' + '        class="divider">\n' + '    </li>\n' + '    <li ng-repeat="currentGroup in settings.selectByGroups track by $index"\n' + '        ng-click="selectCurrentGroup(currentGroup)">\n' + '      <a ng-class="{\'dropdown-selected-group\': selectedGroup === currentGroup}"\n' + '         tabindex="-1">\n' + '        {{::texts.selectGroup}} {{::getGroupLabel(currentGroup)}}\n' + '      </a>\n' + '    </li>\n' + '    <li ng-if="settings.selectByGroups && settings.showEnableSearchButton"\n' + '        class="divider">\n' + '    </li>\n' + '    <li ng-if="settings.showEnableSearchButton && settings.enableSearch">\n' + '      <a ng-keydown="keyDownLink($event); keyDownToggleSearch();"\n' + '         ng-click="toggleSearch($event);"\n' + '         tabindex="-1">\n' + '        {{texts.disableSearch}}\n' + '      </a>\n' + '    </li>\n' + '    <li ng-if="settings.showEnableSearchButton && !settings.enableSearch">\n' + '      <a ng-keydown="keyDownLink($event); keyDownToggleSearch();"\n' + '         ng-click="toggleSearch($event);"\n' + '         tabindex="-1">\n' + '        {{texts.enableSearch}}\n' + '      </a>\n' + '    </li>\n' + '    <li ng-if="(settings.showCheckAll && settings.selectionLimit > 0) || settings.showUncheckAll || settings.showEnableSearchButton"\n' + '        class="divider">\n' + '    </li>\n' + '    <li ng-if="settings.enableSearch">\n' + '      <div class="dropdown-header">\n' + '        <input type="text"\n' + '               class="form-control searchField"\n' + '               ng-keydown="keyDownSearchDefault($event); keyDownSearch($event, input.searchFilter);"\n' + '               ng-style="{width: \'100%\'}"\n' + '               ng-model="input.searchFilter"\n' + '               placeholder="{{texts.searchPlaceholder}}" />\n' + '      </div>\n' + '    </li>\n' + '    <li ng-if="settings.enableSearch"\n' + '        class="divider">\n' + '    </li>\n' + '    <li ng-if="settings.groupBy"\n' + '        ng-repeat-start="option in orderedItems = ( options | filter:getFilter(input.searchFilter) | orderBy:\'\':false:orderFunction)"\n' + '        ng-show="getPropertyForObject(option, settings.groupBy) !== getPropertyForObject(orderedItems[$index - 1], settings.groupBy)"\n' + '        role="presentation"\n' + '        class="dropdown-header">\n' + '      {{ getGroupLabel(getPropertyForObject(option, settings.groupBy)) }}\n' + '    </li>\n' + '    <li ng-if="settings.groupBy"\n' + '        ng-class="{\'active\': isChecked(option) && settings.styleActive}"\n' + '        ng-repeat-end\n' + '        role="presentation">\n' + '      <a ng-keydown="option.disabled || keyDownLink($event)"\n' + '         role="menuitem"\n' + '         class="option"\n' + '         tabindex="-1"\n' + '         ng-click="option.disabled || setSelectedItem(option, false, true)"\n' + '         ng-disabled="option.disabled">\n' + '        <div ng-if="settings.checkBoxes"\n' + '             class="checkbox">\n' + '          <label>\n' + '            <input class="checkboxInput"\n' + '                   type="checkbox"\n' + '                   ng-click="checkboxClick($event, option)"\n' + '                   ng-checked="isChecked(option)" />\n' + '            <span dm-dropdown-static-include="{{settings.template}}"></span>\n' + '          </label>\n' + '        </div>\n' + '        <span ng-if="!settings.checkBoxes"\n' + '              data-ng-class="{\'glyphicon glyphicon-ok\': isChecked(option)}">\n' + '        </span>\n' + '        <span dm-dropdown-static-include="{{settings.template}}"></span>\n' + '      </a>\n' + '    </li>\n' + '    <li ng-if="!settings.groupBy"\n' + '        ng-class="{\'active\': isChecked(option) && settings.styleActive}"\n' + '        role="presentation"\n' + '        ng-repeat="option in options | filter:getFilter(input.searchFilter) | orderBy:\'\':false:orderFunction">\n' + '      <a ng-keydown="option.disabled || keyDownLink($event)"\n' + '         role="menuitem"\n' + '         class="option"\n' + '         tabindex="-1"\n' + '         ng-click="option.disabled || setSelectedItem(option, false, true)"\n' + '         ng-disabled="option.disabled">\n' + '        <div ng-if="settings.checkBoxes"\n' + '             class="checkbox">\n' + '          <label>\n' + '            <input class="checkboxInput"\n' + '                   type="checkbox"\n' + '                   ng-click="checkboxClick($event, option)"\n' + '                   ng-checked="isChecked(option)" />\n' + '            <span dm-dropdown-static-include="{{settings.template}}"></span>\n' + '          </label>\n' + '        </div>\n' + '        <span ng-if="!settings.checkBoxes"\n' + '              data-ng-class="{\'glyphicon glyphicon-ok\': isChecked(option)}">\n' + '        </span>\n' + '        <span ng-if="!settings.checkBoxes"\n' + '              dm-dropdown-static-include="{{settings.template}}"></span>\n' + '      </a>\n' + '    </li>\n' + '    <li class="divider"\n' + '        ng-show="settings.selectionLimit > 1">\n' + '    </li>\n' + '    <li role="presentation"\n' + '        ng-show="settings.selectionLimit > 1">\n' + '      <a role="menuitem">{{selectedModel.length}} {{texts.selectionOf}} {{settings.selectionLimit}} {{texts.selectionCount}}</a>\n' + '    </li>\n' + '  </ul>\n' + '</div>\n' + '');
+	$templateCache.put('templates/dropdownMultiselect.html', '<div class="multiselect-parent btn-group dropdown dropdown-multiselect" ng-class="{open: open}">\n' + '   <div ng-transclude="toggleDropdown" ng-click="toggleDropdown()">\n' + '     <button ng-disabled="disabled" type="button" class="dropdown-toggle" ng-class="settings.buttonClasses">{{getButtonText()}}</button>\n' + '   </div>\n' + '   <ul class="dropdown-menu" ng-if="open" ng-style="{display: open ? \'block\' : \'none\', height : settings.scrollable ? settings.scrollableHeight : \'auto\', overflow: \'auto\' }">\n' + '    <li class="dropdown-item" ng-if="settings.showCheckAll && settings.selectionLimit === 0">\n' + '      <a ng-keydown="keyDownLink($event)" style="text-decoration: none; cursor: pointer;" data-ng-click="selectAll()" tabindex="-1" id="selectAll">\n' + '        <!-- <span class="glyphicon glyphicon-ok"></span> -->\n' + '        {{texts.checkAll}}\n' + '      </a>\n' + '    <li class="dropdown-item" ng-if="settings.showUncheckAll">\n' + '      <a ng-keydown="keyDownLink($event)" style="text-decoration: none; cursor: pointer;" data-ng-click="deselectAll();" tabindex="-1" id="deselectAll">\n' + '        <!-- <span class="glyphicon glyphicon-remove"></span> -->\n' + '        {{texts.uncheckAll}}\n' + '      </a>\n' + '    </li>\n' + '    <li class="dropdown-divider" ng-if="settings.selectByGroups && ((settings.showCheckAll && settings.selectionLimit > 0) || settings.showUncheckAll)"></li>\n' + '    <li class="dropdown-item" ng-repeat="currentGroup in settings.selectByGroups track by $index" ng-click="selectCurrentGroup(currentGroup)">\n' + '      <a ng-class="{\'dropdown-selected-group\': selectedGroup === currentGroup}" tabindex="-1">\n' + '        {{::texts.selectGroup}} {{::getGroupLabel(currentGroup)}}\n' + '      </a>\n' + '    </li>\n' + '    <li class="dropdown-divider" ng-if="settings.selectByGroups && settings.showEnableSearchButton">\n' + '    </li>\n' + '    <li class="dropdown-divider" ng-if="settings.showEnableSearchButton && settings.enableSearch">\n' + '      <a ng-keydown="keyDownLink($event); keyDownToggleSearch();" style="text-decoration: none; cursor: pointer;" ng-click="toggleSearch($event);" tabindex="-1">\n' + '        {{texts.disableSearch}}\n' + '      </a>\n' + '    </li>\n' + '    <li class="dropdown-item" ng-if="settings.showEnableSearchButton && !settings.enableSearch">\n' + '      <a ng-keydown="keyDownLink($event); keyDownToggleSearch();" style="text-decoration: none; cursor: pointer;" ng-click="toggleSearch($event);" tabindex="-1">\n' + '        {{texts.enableSearch}}\n' + '      </a>\n' + '    </li>\n' + '    <li class="dropdown-divider" ng-if="(settings.showCheckAll && settings.selectionLimit > 0) || settings.showUncheckAll || settings.showEnableSearchButton"></li>\n' + '    <li ng-if="settings.enableSearch">\n' + '      <div class="dropdown-header">\n' + '        <input type="text" class="form-control searchField" ng-keydown="keyDownSearchDefault($event); keyDownSearch($event, input.searchFilter);" ng-style="{width: \'100%\'}" ng-model="input.searchFilter" placeholder="{{texts.searchPlaceholder}}" />\n' + '      </div>\n' + '    </li>\n' + '    <li class="dropdown-divider" ng-if="settings.enableSearch"></li>\n' + '    <li class="dropdown-header" ng-if="settings.groupBy" ng-repeat-start="option in orderedItems = ( options | filter:getFilter(input.searchFilter) | orderBy:\'\':false:orderFunction)" ng-show="getPropertyForObject(option, settings.groupBy) !== getPropertyForObject(orderedItems[$index - 1], settings.groupBy)" role="presentation">\n' + '      {{ getGroupLabel(getPropertyForObject(option, settings.groupBy)) }}\n' + '    </li>\n' + '    <li class="dropdown-item" ng-if="settings.groupBy" ng-class="{\'active\': isChecked(option) && settings.styleActive}" ng-repeat-end role="presentation">\n' + '      <a ng-keydown="option.disabled || keyDownLink($event)" style="text-decoration: none; cursor: pointer;" role="menuitem" class="option" tabindex="-1" ng-click="option.disabled || setSelectedItem(option, false, true)" ng-disabled="option.disabled">\n' + '        <div ng-if="settings.checkBoxes" class="checkbox">\n' + '          <label>\n' + '            <input class="checkboxInput" type="checkbox" ng-click="checkboxClick($event, option)" ng-checked="isChecked(option)" />\n' + '            <span dm-dropdown-static-include="{{settings.template}}"></span>\n' + '          </label>\n' + '        </div>\n' + '        <!-- <span ng-if="!settings.checkBoxes" data-ng-class="{\'glyphicon glyphicon-ok\': isChecked(option)}"> -->\n' + '        </span>\n' + '        <span dm-dropdown-static-include="{{settings.template}}"></span>\n' + '      </a>\n' + '    </li>\n' + '    <li class="dropdown-item" ng-if="!settings.groupBy" ng-class="{\'active\': isChecked(option) && settings.styleActive}" role="presentation" ng-repeat="option in options | filter:getFilter(input.searchFilter) | orderBy:\'\':false:orderFunction">\n' + '      <a ng-keydown="option.disabled || keyDownLink($event)" style="text-decoration: none; cursor: pointer;" role="menuitem" class="option" tabindex="-1" ng-click="option.disabled || setSelectedItem(option, false, true)" ng-disabled="option.disabled">\n' + '        <div ng-if="settings.checkBoxes" class="checkbox">\n' + '          <label>\n' + '            <input class="checkboxInput" type="checkbox" ng-click="checkboxClick($event, option)" ng-checked="isChecked(option)" />\n' + '            <span dm-dropdown-static-include="{{settings.template}}"></span>\n' + '          </label>\n' + '        </div>\n' + '        <!-- <span ng-if="!settings.checkBoxes" data-ng-class="{\'glyphicon glyphicon-ok\': isChecked(option)}"> -->\n' + '        </span>\n' + '        <span ng-if="!settings.checkBoxes" dm-dropdown-static-include="{{settings.template}}"></span>\n' + '      </a>\n' + '    </li>\n' + '    <li class="dropdown-divider" ng-show="settings.selectionLimit > 1">\n' + '    </li>\n' + '    <li class="dropdown-item" role="presentation" ng-show="settings.selectionLimit > 1">\n' + '      <a role="menuitem">{{selectedModel.length}} {{texts.selectionOf}} {{settings.selectionLimit}} {{texts.selectionCount}}</a>\n' + '    </li>\n' + '  </ul>\n' + '</div>\n' + '');
 }]);
 
 exports.ngDropdownMulti = NgDropdownMulti;
