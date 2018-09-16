@@ -5,12 +5,12 @@
    <ul class="dropdown-menu" ng-if="open" ng-style="{display: open ? 'block' : 'none', height : settings.scrollable ? settings.scrollableHeight : 'auto', overflow: 'auto' }">
     <li class="dropdown-item" ng-if="settings.showCheckAll && settings.selectionLimit === 0">
       <a ng-keydown="keyDownLink($event)" style="text-decoration: none; cursor: pointer;" data-ng-click="selectAll()" tabindex="-1" id="selectAll">
-        <!-- <span class="glyphicon glyphicon-ok"></span> -->
+        <i class="fa fa-check"></i>
         {{texts.checkAll}}
       </a>
     <li class="dropdown-item" ng-if="settings.showUncheckAll">
       <a ng-keydown="keyDownLink($event)" style="text-decoration: none; cursor: pointer;" data-ng-click="deselectAll();" tabindex="-1" id="deselectAll">
-        <!-- <span class="glyphicon glyphicon-remove"></span> -->
+        <i class="fa fa-trash-alt"></i>
         {{texts.uncheckAll}}
       </a>
     </li>
@@ -50,7 +50,7 @@
             <span dm-dropdown-static-include="{{settings.template}}"></span>
           </label>
         </div>
-        <!-- <span ng-if="!settings.checkBoxes" data-ng-class="{'glyphicon glyphicon-ok': isChecked(option)}"> -->
+        <span ng-if="!settings.checkBoxes" data-ng-class="{'fa fa-check': isChecked(option)}">
         </span>
         <span dm-dropdown-static-include="{{settings.template}}"></span>
       </a>
@@ -63,7 +63,7 @@
             <span dm-dropdown-static-include="{{settings.template}}"></span>
           </label>
         </div>
-        <!-- <span ng-if="!settings.checkBoxes" data-ng-class="{'glyphicon glyphicon-ok': isChecked(option)}"> -->
+        <span ng-if="!settings.checkBoxes" data-ng-class="{'fa fa-check': isChecked(option)}">
         </span>
         <span ng-if="!settings.checkBoxes" dm-dropdown-static-include="{{settings.template}}"></span>
       </a>
