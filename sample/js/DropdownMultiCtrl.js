@@ -8,17 +8,17 @@ sampleAppControllers.controller('DropdownMultiCtrl', ['$scope',
 
     var vm = this
 
-    vm.options = ['Eduardo Castro','Henrique Rocha','Amanayara Sousa']
+    vm.options = [{id: 1, label: 'Eduardo Castro'},{id: 2, label: 'Henrique Rocha'},{id: 3 , label: 'Amanayara Sousa'}]
 
-    vm.model = []
+    vm.model = [vm.options[0],vm.options[2]]
 
     vm.settings = {
       enableSearch: true,
-      template: '{{option}}',
+      template: '{{option.label}}',
       showCheckAll: false,
       showUncheckAll: false,
       styleActive: true,
-      checkBoxes: false,
+      checkBoxes: true,
       buttonClasses: 'btn btn-primary'
     }
 

@@ -102,26 +102,33 @@ dropdownMulti.controller('DropdownMultiselectCtrl', function ($scope, $element, 
 
 	if (settings.closeOnBlur) {
 		$document.on('click', function (e) {
-			if ($scope.open) {
-				var target = e.target.parentElement;
-				var parentFound = false;
-
-				while (angular.isDefined(target) && target !== null && !parentFound) {
-					if (!!target.className.split && contains(target.className.split(' '), 'multiselect-parent') && !parentFound) {
-						if (target === $dropdownTrigger) {
-							parentFound = true;
-						}
-					}
-					target = target.parentElement;
-				}
-
-				if (!parentFound) {
-					$scope.$apply(function () {
-						$scope.close();
-					});
-				}
-			}
+			closeOnClick(e);
 		});
+		angular.element('.modal-content').on('click', function (e) {
+			closeOnClick(e);
+		});
+	}
+
+	function closeOnClick(e) {
+		if ($scope.open) {
+			var target = e.target.parentElement;
+			var parentFound = false;
+
+			while (angular.isDefined(target) && target !== null && !parentFound) {
+				if (!!target.className.split && contains(target.className.split(' '), 'multiselect-parent') && !parentFound) {
+					if (target === $dropdownTrigger) {
+						parentFound = true;
+					}
+				}
+				target = target.parentElement;
+			}
+
+			if (!parentFound) {
+				$scope.$apply(function () {
+					$scope.close();
+				});
+			}
+		}
 	}
 
 	angular.extend($scope, {
